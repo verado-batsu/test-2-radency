@@ -19,8 +19,8 @@ export const archiveTodosSlice = createSlice({
 			]
 		},
 
-		deleteArchiveTodo: (state, action) => {
-		
+		deleteArchiveTodo: (state, action: PayloadAction<string>) => {
+			return [...state.filter(todo => todo.id !== action.payload)]
 		},
 
 		unarchiveTodo: (state, action: PayloadAction<number>) => {

@@ -6,8 +6,8 @@ import { icons } from '../../../assets/images/tablePage';
 
 import styles from '../Item.module.scss';
 import { useAppDispatch } from '../../../hooks';
-import { deleteTodo } from '../../../redux/todos/todosSlice'
-import { addArchiveTodo } from '../../../redux/archiveTodos/archiveTodosSlice';
+import { addTodo, deleteTodo } from '../../../redux/todos/todosSlice'
+import { addArchiveTodo, deleteArchiveTodo } from '../../../redux/archiveTodos/archiveTodosSlice';
 
 const {
 	tableItem,
@@ -18,13 +18,14 @@ const {
 	btnEdit,
 	btnArchive,
 	btnDelete,
+	btnUnarchive,
 	btnIcon
 } = styles;
 
 interface IProps {
 	key: string,
 	todo: ITodoItem,
-	type: string,
+	type: 'todos' | 'summary' | 'archiveTodos',
 	openModal: () => void,
 	setEditId: (id: string) => void
 }
@@ -34,12 +35,22 @@ export const TodoItem: React.FC<IProps> = ({ todo, type, openModal, setEditId })
 	const icon = chooseIcon(todo.category);
 
 	function deleteNote() {
-		dispatch(deleteTodo(todo.id))
+		if (type === "todos") {
+			dispatch(deleteTodo(todo.id))
+		} else {
+			dispatch(deleteArchiveTodo(todo.id))
+		}
+		
 	}
 
 	function archiveTodo() {
 		dispatch(addArchiveTodo(todo))
 		dispatch(deleteTodo(todo.id))
+	}
+
+	function unarchiveTodo() {
+		dispatch(addTodo(todo))
+		dispatch(deleteArchiveTodo(todo.id))
 	}
 
 	return (
@@ -60,19 +71,38 @@ export const TodoItem: React.FC<IProps> = ({ todo, type, openModal, setEditId })
 				</li>
 				<li className={tableRowItem}>{todo.dates}</li>
 				<li className={tableRowItem}>
-					{type === "todos" && <button onClick={() => {
-						openModal()
-						setEditId(todo.id)
-					}} className={btnEdit} type="button">
-						<svg className={btnIcon} width="24" height="24">
-							<use href={`${icons}#icon-edit`}></use>
-						</svg>
-					</button>}
-					<button onClick={archiveTodo} className={btnArchive} type="button">
-						<svg className={btnIcon} width="24" height="24">
-							<use href={`${icons}#icon-archive`}></use>
-						</svg>
-					</button>
+					{type === "todos" &&
+						(
+							<button
+								onClick={() => {
+									openModal()
+									setEditId(todo.id)
+								}}
+								className={btnEdit}
+								type="button"
+							>
+								<svg className={btnIcon} width="24" height="24">
+									<use href={`${icons}#icon-edit`}></use>
+								</svg>
+							</button>
+						)
+					}
+					{type === "todos" ? 
+						(
+							<button onClick={archiveTodo} className={btnArchive} type="button">
+								<svg className={btnIcon} width="24" height="24">
+									<use href={`${icons}#icon-archive`}></use>
+								</svg>
+							</button>
+						) :
+						(
+							<button onClick={unarchiveTodo} className={btnUnarchive} type="button">
+								<svg className={btnIcon} width="24" height="24">
+									<use href={`${icons}#icon-unarchive`}></use>
+								</svg>
+							</button>
+						)
+					}
 					<button onClick={deleteNote} className={btnDelete} type="button">
 						<svg className={btnIcon} width="24" height="24">
 							<use href={`${icons}#icon-delete`}></use>
