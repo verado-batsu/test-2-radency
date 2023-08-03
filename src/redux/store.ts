@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { todosReducer } from './todos/todosSlice'
+import { summaryReducer } from './summary/summarySlice'
+import { archiveTodosReducer } from './archiveTodos/archiveTodosSlice'
 
 
 export const store = configureStore({
-  reducer: {
-    todos: todosReducer
-  }
+	reducer: {
+		todos: todosReducer,
+		archiveTodos: archiveTodosReducer,
+		summary: summaryReducer,
+	}
 })
 
 

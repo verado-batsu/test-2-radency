@@ -1,11 +1,8 @@
-import {
-	todoData,
-	statisticData,
-	archiveTodoData,
-	Categories
-} from '../data'
+import { Categories, statisticData } from "../data";
+import { ISummaryItem, ITodoItem } from "../types";
 
-export function calculateStatistic() {
+
+export function calculateStatistic(data: ITodoItem[], type: string): ISummaryItem[] {
 	const activeStatistic = {
 		task: 0,
 		thought: 0,
@@ -20,7 +17,8 @@ export function calculateStatistic() {
 		quote: 0,
 	}
 
-	todoData.forEach(todo => {
+	if (type === "todos") {
+		data.forEach(todo => {
 		switch (todo.category) {
 			case Categories.task:
 				activeStatistic.task += 1;
@@ -37,8 +35,8 @@ export function calculateStatistic() {
 			default: return;
 		}
 	})
-
-	archiveTodoData.forEach(todo => {
+	} else {
+		data.forEach(todo => {
 		switch (todo?.category) {
 			case Categories.task:
 				archivedStatistic.task += 1;
@@ -55,27 +53,41 @@ export function calculateStatistic() {
 			default: return;
 		}
 	})
+	}
 
-	
-	statisticData.forEach(stat => {
+	const statistic = statisticData.map(stat => {
 		switch (stat.category) {
 			case Categories.task:
-				stat.active = activeStatistic.task;
-				stat.archived = archivedStatistic.task;
-			break;
+				return {
+					category: stat.category,
+					active: activeStatistic.task,
+					archived: archivedStatistic.task
+				}
 			case Categories.thought:
-				stat.active = activeStatistic.thought;
-				stat.archived = archivedStatistic.thought;
-				break;
+				return {
+					category: stat.category,
+					active: activeStatistic.thought,
+					archived: archivedStatistic.thought
+				}
 			case Categories.idea:
-				stat.active = activeStatistic.idea;
-				stat.archived = archivedStatistic.idea;
-				break;
+				return {
+					category: stat.category,
+					active: activeStatistic.idea,
+					archived: archivedStatistic.idea
+				}
 			case Categories.quote:
-				stat.active = activeStatistic.quote;
-				stat.archived = archivedStatistic.quote;
-				break;
-			default: return;
+				return {
+					category: stat.category,
+					active: activeStatistic.quote,
+					archived: archivedStatistic.quote
+				}
+			default: return {
+				category: stat.category,
+				active: stat.active,
+				archived: stat.archived
+			}
 		}
 	})
+
+	return statistic;
 }

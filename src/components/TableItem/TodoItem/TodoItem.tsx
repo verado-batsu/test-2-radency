@@ -1,10 +1,10 @@
 import React from 'react';
-import { chooseIcon, limit } from '../../helpers';
+import { chooseIcon, limit } from '../../../helpers';
 
-import { ITodoItem } from '../../types/todoTypes';
-import { icons } from '../../assets/images/tablePage';
+import { ITodoItem } from '../../../types';
+import { icons } from '../../../assets/images/tablePage';
 
-import styles from './TodoItem.module.scss';
+import styles from '../Item.module.scss';
 
 const {
 	tableItem,
@@ -20,7 +20,7 @@ const {
 
 interface IProps {
 	key: string,
-	todo: ITodoItem
+	todo: ITodoItem,
 }
 
 export const TodoItem: React.FC<IProps> = ({ todo }) => {

@@ -1,3 +1,3 @@
-import { ITodoItem } from "../types/todoTypes";
+import { ITodoItem } from "../types";
 
 export const archiveTodoData: Array<ITodoItem> = []

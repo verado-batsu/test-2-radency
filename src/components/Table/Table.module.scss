@@ -2,6 +2,16 @@
 	margin-bottom: 30px;
 }
 
+.statisticTable {
+	.tableRowItem {
+		flex-basis: calc((100% - 10px * 2) / 3);
+
+		&:last-child {
+			justify-content: flex-start;
+		}
+	}
+}
+
 .table {
 	margin-bottom: 10px;
 }

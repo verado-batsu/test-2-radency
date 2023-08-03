@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-// import { RootState } from './../store';
-
 import { todoData } from '../../data';
-import { ITodoItem } from '../../types/todoTypes';
+import { ITodoItem } from '../../types';
 
 
 const initialState: ITodoItem[] = todoData;
@@ -12,8 +10,11 @@ export const todosSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    addTodo: (state, action) => {
-      
+    addTodo: (state, action: PayloadAction<ITodoItem>) => {
+		  return [
+			...state,
+			action.payload
+	  	]
     },
     deleteTodo: (state, action) => {
       
@@ -28,7 +29,5 @@ export const todosSlice = createSlice({
 })
 
 export const { addTodo, deleteTodo, editTodo, archiveTodo} = todosSlice.actions;
-
-// export const selectCount = (state: RootState) => state.counter.value;
 
 export const todosReducer = todosSlice.reducer;

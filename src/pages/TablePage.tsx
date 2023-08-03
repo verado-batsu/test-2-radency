@@ -1,10 +1,11 @@
 import React from 'react';
-import { TodoList } from '../components/TodoList/TodoList';
+import { Table } from '../components/Table/Table';
 
 export const TablePage: React.FC = () => {
 	return (
 		<>
-			<TodoList />
+			<Table typeOfTable='todos' />
+			<Table typeOfTable='summary' />
 		</>
 	)
 }
