@@ -7,6 +7,7 @@ import { icons } from '../../../assets/images/tablePage';
 import styles from '../Item.module.scss';
 import { useAppDispatch } from '../../../hooks';
 import { deleteTodo } from '../../../redux/todos/todosSlice'
+import { addArchiveTodo } from '../../../redux/archiveTodos/archiveTodosSlice';
 
 const {
 	tableItem,
@@ -36,6 +37,11 @@ export const TodoItem: React.FC<IProps> = ({ todo, type, openModal, setEditId })
 		dispatch(deleteTodo(todo.id))
 	}
 
+	function archiveTodo() {
+		dispatch(addArchiveTodo(todo))
+		dispatch(deleteTodo(todo.id))
+	}
+
 	return (
 		<li className={tableItem}>
 			<ul className={tableRow}>
@@ -62,7 +68,7 @@ export const TodoItem: React.FC<IProps> = ({ todo, type, openModal, setEditId })
 							<use href={`${icons}#icon-edit`}></use>
 						</svg>
 					</button>}
-					<button className={btnArchive} type="button">
+					<button onClick={archiveTodo} className={btnArchive} type="button">
 						<svg className={btnIcon} width="24" height="24">
 							<use href={`${icons}#icon-archive`}></use>
 						</svg>

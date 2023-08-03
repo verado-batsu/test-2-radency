@@ -11,7 +11,7 @@ import { SummaryItem } from '../TableItem/SummaryItem/SummaryItem';
 import styles from './Table.module.scss';
 import { calculateStatistic, findDateInText } from '../../helpers';
 import { changeSummary } from '../../redux/summary/summarySlice';
-import { ISummaryItem, ITodoItem } from '../../types';
+import { ITodoItem } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { addTodo, editTodo } from '../../redux/todos/todosSlice';
 
@@ -39,18 +39,21 @@ interface IProps {
 export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 	const dispatch = useAppDispatch();
 
+	const [typeOfRender, setTypeOfRender] = useState<'todos' | 'summary' | 'archiveTodos'>(typeOfTable)
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [editId, setEditId] = useState<string | null>(null);
 
-	const data = useAppSelector(state => state[typeOfTable]);
+	const todos = useAppSelector(state => state.todos);
+	const archiveTodos = useAppSelector(state => state.archiveTodos);
+	const summary = useAppSelector(state => state.summary);
 
 	useEffect(() => {
-		if (typeOfTable === 'summary') {
+		if (typeOfRender === 'summary') {
 			return;
 		}
-		const statistic = calculateStatistic(data as ITodoItem[], typeOfTable)
+		const statistic = calculateStatistic(todos, archiveTodos)
 		dispatch(changeSummary(statistic))
-	}, [data, dispatch, typeOfTable])
+	}, [archiveTodos, dispatch, todos, typeOfRender])
 
 	function openModal() {
 		setShowModal(true)
@@ -124,6 +127,14 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 		dispatch(editTodo(newEditedTodo))
 	}
 
+	function openArchive() {
+		if (typeOfRender === "todos") {
+			setTypeOfRender("archiveTodos")
+		} else if (typeOfRender === "archiveTodos") {
+			setTypeOfRender("todos")
+		}
+	}
+
 	return (
 		<>
 			{showModal && <Modal
@@ -131,11 +142,11 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 				closeModal={closeModal}
 				handleSubmit={handleSubmit}
 			/>}
-			<div className={typeOfTable === "todos" || typeOfTable === "archiveTodos" ? mainTable : statisticTable}>
+			<div className={typeOfRender === "todos" || typeOfRender === "archiveTodos" ? mainTable : statisticTable}>
 				<ul className={table}>
 					<li className={tableItemHead}>
 						<ul className={tableRow}>
-							{ typeOfTable === "todos" || typeOfTable === "archiveTodos" ?
+							{ typeOfRender === "todos" || typeOfRender === "archiveTodos" ?
 							<>
 								{TodoTitleArr.map(title => {
 									return <li key={title} className={tableRowItem}>{title}</li>
@@ -158,35 +169,48 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 						</ul>
 					</li>
 					<ul>
-						{typeOfTable === "todos" &&
+						{typeOfRender === "todos" &&
 							<>
-							{data.map((todo) => {
-									const item = todo as ITodoItem
-								return <TodoItem
-									key={item.id}
-									todo={item}
-									type={typeOfTable}
-									openModal={openModal}
-									setEditId={setEditId}
-								/>
+								{todos.map((todo) => {
+									return <TodoItem
+										key={todo.id}
+										todo={todo}
+										type={typeOfRender}
+										openModal={openModal}
+										setEditId={setEditId}
+									/>
+								})}
+							</>
+						}
+
+						{typeOfRender === "archiveTodos" &&
+							<>
+								{archiveTodos.map((todo) => {
+									return <TodoItem
+										key={todo.id}
+										todo={todo}
+										type={typeOfRender}
+										openModal={openModal}
+										setEditId={setEditId}
+									/>
 								})}
 							</>
 						}
 						
-						{typeOfTable === "summary" &&
+						{typeOfRender === "summary" &&
 							<>
-								{data.map(summary => {
-									return <SummaryItem key={summary.category} summary={summary as ISummaryItem} />
+								{summary.map(summary => {
+									return <SummaryItem key={summary.category} summary={summary} />
 								})}
 							</>
 						}
 						
 					</ul>
 				</ul>
-				{typeOfTable !== "summary" &&
+				{typeOfRender !== "summary" &&
 					<div className={btnWrapper}>
-						<button className={createNoteBtn} type="button" onClick={() => openModal()}>Create Note</button>
-						<button className={toggleArchiveBtn} type="button">Show Archive</button>
+						<button onClick={() => openModal()} className={createNoteBtn} type="button" >Create Note</button>
+						<button onClick={() => openArchive()} className={toggleArchiveBtn} type="button">{typeOfRender === "todos" ? "Show Archive" : "Hide Archive"}</button>
 					</div>
 				}
 			</div>
