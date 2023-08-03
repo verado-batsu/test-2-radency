@@ -2,7 +2,7 @@ import { Categories, statisticData } from "../data";
 import { ISummaryItem, ITodoItem } from "../types";
 
 
-export function calculateStatistic(data: ITodoItem[], type: string): ISummaryItem[] {
+export function calculateStatistic(todos: ITodoItem[], archiveTodos: ITodoItem[]): ISummaryItem[] {
 	const activeStatistic = {
 		task: 0,
 		thought: 0,
@@ -17,8 +17,7 @@ export function calculateStatistic(data: ITodoItem[], type: string): ISummaryIte
 		quote: 0,
 	}
 
-	if (type === "todos") {
-		data.forEach(todo => {
+	todos.forEach(todo => {
 		switch (todo.category) {
 			case Categories.task:
 				activeStatistic.task += 1;
@@ -35,8 +34,7 @@ export function calculateStatistic(data: ITodoItem[], type: string): ISummaryIte
 			default: return;
 		}
 	})
-	} else {
-		data.forEach(todo => {
+	archiveTodos.forEach(todo => {
 		switch (todo?.category) {
 			case Categories.task:
 				archivedStatistic.task += 1;
@@ -53,7 +51,6 @@ export function calculateStatistic(data: ITodoItem[], type: string): ISummaryIte
 			default: return;
 		}
 	})
-	}
 
 	const statistic = statisticData.map(stat => {
 		switch (stat.category) {

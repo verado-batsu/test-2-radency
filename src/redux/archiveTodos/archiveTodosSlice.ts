@@ -11,17 +11,25 @@ const initialState: ITodoItem[] = archiveTodoData;
 export const archiveTodosSlice = createSlice({
   name: 'archiveTodo',
   initialState,
-  reducers: {
-    deleteTodo: (state, action) => {
-      
-	  },
-	unarchiveTodo: (state, action: PayloadAction<number>) => {
-      
-	},
+	reducers: {
+		addArchiveTodo: (state, action:  PayloadAction<ITodoItem>) => {
+			return [
+				...state,
+				action.payload
+			]
+		},
+
+		deleteArchiveTodo: (state, action: PayloadAction<string>) => {
+			return [...state.filter(todo => todo.id !== action.payload)]
+		},
+
+		unarchiveTodo: (state, action: PayloadAction<number>) => {
+		
+		},
   }
 })
 
-export const { deleteTodo,  unarchiveTodo } = archiveTodosSlice.actions;
+export const { addArchiveTodo, deleteArchiveTodo,  unarchiveTodo } = archiveTodosSlice.actions;
 
 // export const selectCount = (state: RootState) => state.counter.value;
 
