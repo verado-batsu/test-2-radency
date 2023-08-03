@@ -29,12 +29,9 @@ export const todosSlice = createSlice({
 			})
 		]
 	  },
-	archiveTodo: (state, action: PayloadAction<number>) => {
-      
-	},
   }
 })
 
-export const { addTodo, deleteTodo, editTodo, archiveTodo} = todosSlice.actions;
+export const { addTodo, deleteTodo, editTodo} = todosSlice.actions;
 
 export const todosReducer = todosSlice.reducer;
