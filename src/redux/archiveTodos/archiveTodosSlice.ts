@@ -9,7 +9,7 @@ import { ITodoItem } from '../../types';
 const initialState: ITodoItem[] = archiveTodoData;
 
 export const archiveTodosSlice = createSlice({
-  name: 'counter',
+  name: 'archiveTodo',
   initialState,
   reducers: {
     deleteTodo: (state, action) => {

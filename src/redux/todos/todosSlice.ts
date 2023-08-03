@@ -7,7 +7,7 @@ import { ITodoItem } from '../../types';
 const initialState: ITodoItem[] = todoData;
 
 export const todosSlice = createSlice({
-  name: 'counter',
+  name: 'todos',
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<ITodoItem>) => {
@@ -16,11 +16,18 @@ export const todosSlice = createSlice({
 			action.payload
 	  	]
     },
-    deleteTodo: (state, action) => {
-      
+    deleteTodo: (state, action: PayloadAction<string>) => {
+       return [...state.filter(todo => todo.id !== action.payload)]
 	  },
-	editTodo: (state, action) => {
-      
+	editTodo: (state, action: PayloadAction<ITodoItem>) => {
+		return [
+			...state.map(todo => {
+				if (todo.id === action.payload.id) {
+					return action.payload
+				}
+				return todo;
+			})
+		]
 	  },
 	archiveTodo: (state, action: PayloadAction<number>) => {
       

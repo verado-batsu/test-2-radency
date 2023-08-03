@@ -5,6 +5,8 @@ import { ITodoItem } from '../../../types';
 import { icons } from '../../../assets/images/tablePage';
 
 import styles from '../Item.module.scss';
+import { useAppDispatch } from '../../../hooks';
+import { deleteTodo } from '../../../redux/todos/todosSlice'
 
 const {
 	tableItem,
@@ -21,10 +23,18 @@ const {
 interface IProps {
 	key: string,
 	todo: ITodoItem,
+	type: string,
+	openModal: () => void,
+	setEditId: (id: string) => void
 }
 
-export const TodoItem: React.FC<IProps> = ({ todo }) => {
+export const TodoItem: React.FC<IProps> = ({ todo, type, openModal, setEditId }) => {
+	const dispatch = useAppDispatch();
 	const icon = chooseIcon(todo.category);
+
+	function deleteNote() {
+		dispatch(deleteTodo(todo.id))
+	}
 
 	return (
 		<li className={tableItem}>
@@ -44,17 +54,20 @@ export const TodoItem: React.FC<IProps> = ({ todo }) => {
 				</li>
 				<li className={tableRowItem}>{todo.dates}</li>
 				<li className={tableRowItem}>
-					<button name={todo.id} className={btnEdit} type="button">
+					{type === "todos" && <button onClick={() => {
+						openModal()
+						setEditId(todo.id)
+					}} className={btnEdit} type="button">
 						<svg className={btnIcon} width="24" height="24">
 							<use href={`${icons}#icon-edit`}></use>
 						</svg>
-					</button>
-					<button name={todo.id} className={btnArchive} type="button">
+					</button>}
+					<button className={btnArchive} type="button">
 						<svg className={btnIcon} width="24" height="24">
 							<use href={`${icons}#icon-archive`}></use>
 						</svg>
 					</button>
-					<button name={todo.id} className={btnDelete} type="button">
+					<button onClick={deleteNote} className={btnDelete} type="button">
 						<svg className={btnIcon} width="24" height="24">
 							<use href={`${icons}#icon-delete`}></use>
 						</svg>

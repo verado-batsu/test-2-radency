@@ -13,7 +13,7 @@ import { calculateStatistic, findDateInText } from '../../helpers';
 import { changeSummary } from '../../redux/summary/summarySlice';
 import { ISummaryItem, ITodoItem } from '../../types';
 import { Modal } from '../Modal/Modal';
-import { addTodo } from '../../redux/todos/todosSlice';
+import { addTodo, editTodo } from '../../redux/todos/todosSlice';
 
 const {
 	mainTable,
@@ -40,6 +40,7 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 	const dispatch = useAppDispatch();
 
 	const [showModal, setShowModal] = useState<boolean>(false);
+	const [editId, setEditId] = useState<string | null>(null);
 
 	const data = useAppSelector(state => state[typeOfTable]);
 
@@ -59,8 +60,18 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 		setShowModal(false)
 	}
 
-	function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+	function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>, editTodo: ITodoItem | undefined) {
 		e.preventDefault()
+		if (!editTodo) {
+			createNote(e)
+		} else {
+			editNote(e, editTodo)
+		}
+		e.currentTarget.reset()
+		closeModal()
+	}
+
+	function createNote(e: React.SyntheticEvent<HTMLFormElement>) {
 		const {name, categories, content} = e.target as typeof e.target & {
 			name: { value: string };
 			categories: { value: string };
@@ -85,14 +96,38 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 		dates,
 		}
 		dispatch(addTodo(newTodo))
+	}
 
-		e.currentTarget.reset()
-		closeModal()
+	function editNote(e: React.SyntheticEvent<HTMLFormElement>, editedTodo: ITodoItem) {
+		const {name, categories, content} = e.target as typeof e.target & {
+			name: { value: string };
+			categories: { value: string };
+			content: { value: string };
+		};
+
+		if (name.value.trim() === '' || content.value.trim() === '') {
+			Notify.failure('Fields must not be empty');
+			return;
+		}
+
+		const dates = findDateInText(content.value)
+
+		const newEditedTodo = {
+			id: editedTodo.id,
+			name: name.value,
+			created: editedTodo.created,
+			category: categories.value,
+			content: content.value,
+			dates,
+		}
+
+		dispatch(editTodo(newEditedTodo))
 	}
 
 	return (
 		<>
 			{showModal && <Modal
+				editId={editId}
 				closeModal={closeModal}
 				handleSubmit={handleSubmit}
 			/>}
@@ -127,7 +162,13 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 							<>
 							{data.map((todo) => {
 									const item = todo as ITodoItem
-									return <TodoItem key={item.id} todo={item} />
+								return <TodoItem
+									key={item.id}
+									todo={item}
+									type={typeOfTable}
+									openModal={openModal}
+									setEditId={setEditId}
+								/>
 								})}
 							</>
 						}
@@ -144,7 +185,7 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 				</ul>
 				{typeOfTable !== "summary" &&
 					<div className={btnWrapper}>
-						<button className={createNoteBtn} type="button" onClick={openModal}>Create Note</button>
+						<button className={createNoteBtn} type="button" onClick={() => openModal()}>Create Note</button>
 						<button className={toggleArchiveBtn} type="button">Show Archive</button>
 					</div>
 				}

@@ -9,7 +9,7 @@ import { ISummaryItem } from '../../types';
 const initialState: ISummaryItem[] = statisticData;
 
 export const summarySlice = createSlice({
-  name: 'counter',
+  name: 'summary',
   initialState,
   reducers: {
 	  changeSummary: (state, action: PayloadAction<ISummaryItem[]>) => {
