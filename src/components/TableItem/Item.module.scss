@@ -13,6 +13,17 @@
 	max-height: 40px;
 }
 
+.statisticRowItem {
+	flex-basis: calc((100% - 10px * 2) / 3);
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	&:last-child {
+		justify-content: flex-start;
+	}
+}
+
 .tableRowItem {
 	flex-basis: calc((100% - 10px * 5) / 6);
 	display: flex;

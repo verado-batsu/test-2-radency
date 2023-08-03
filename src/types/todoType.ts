@@ -1,4 +1,4 @@
-export interface ITodoItem {
+export default interface ITodoItem {
 	id: string,
 	name: string,
 	created: string,
