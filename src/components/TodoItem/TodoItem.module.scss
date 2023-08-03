@@ -1,0 +1,72 @@
+.tableItem {
+	background-color: rgba(100, 148, 237, 0.2);
+
+	&:not(:last-child) {
+		margin-bottom: 10px;
+	}
+}
+
+.tableRow {
+	display: flex;
+	gap: 10px;
+	padding: 5px 20px;
+	max-height: 40px;
+}
+
+.tableRowItem {
+	flex-basis: calc((100% - 10px * 5) / 6);
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	&:last-child {
+		justify-content: flex-end;
+	}
+}
+
+.iconWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3px;
+
+	background-color: rgb(75, 74, 74);
+	border-radius: 50%;
+}
+
+.tableIcon {
+	fill: #fff;
+}
+
+.btnEdit {
+	&:hover,
+	&:focus {
+		color: rgba(78, 172, 1, 0.973);
+	}
+}
+
+.btnArchive {
+	&:hover,
+	&:focus {
+		color: rgba(201, 171, 3, 0.973);
+	}
+}
+
+.btnUnarchive {
+	&:hover,
+	&:focus {
+		color: rgb(2, 184, 230);
+	}
+}
+
+.btnDelete,
+.btnArchivedDelete {
+	&:hover,
+	&:focus {
+		color: red;
+	}
+}
+
+.btnIcon {
+	fill: currentColor;
+}
