@@ -2,9 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Form from 'react-bootstrap/Form';
 
-import styles from './Modal.module.scss'
+// import styles from './Modal.module.scss'
 import { useAppSelector } from '../../hooks';
 import { ITodoItem } from '../../types';
+
+const styles = {
+	modal: "absolute z-10 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[400px] py-[30px] px-[20px] rounded-[8px] bg-white",
+	modalWrapper: "absolute top-0 left-0 right-0 bottom-0 bg-[rgb(85,84,84,0.5)]",
+	closeBtn: "absolute top-[10px] right-[10px] py-[5px] px-[5px] rounded-[8px] hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white",
+	modalForm: "flex flex-col gap-[30px]",
+	formLabel: "flex flex-col",
+	labelTitle: "mb-[5px]",
+	formInput: "w-full py-[5px] px-[10px] border border-solid border-black rounded-[8px] resize-none",
+	modalSelect: "p-[5px] rounded-[8px]",
+	formBtn: "py-[5px] px-[10px] border border-solid border-[rgb(85,84,84)] rounded-[8px] hover:border-[rgba(100, 148, 237, 0.6)] hover:bg-[rgba(100, 148, 237, 0.6)] hover:text-white focus:border-[rgba(100, 148, 237, 0.6)] focus:bg-[rgba(100, 148, 237, 0.6)] focus:text-white"
+}
 
 const {
 	modalWrapper,
