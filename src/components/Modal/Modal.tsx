@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Form from 'react-bootstrap/Form';
 
-// import styles from './Modal.module.scss'
 import { useAppSelector } from '../../hooks';
 import { ITodoItem } from '../../types';
 
@@ -14,8 +13,8 @@ const styles = {
 	formLabel: "flex flex-col",
 	labelTitle: "mb-[5px]",
 	formInput: "w-full py-[5px] px-[10px] border border-solid border-black rounded-[8px] resize-none",
-	modalSelect: "p-[5px] rounded-[8px]",
-	formBtn: "py-[5px] px-[10px] border border-solid border-[rgb(85,84,84)] rounded-[8px] hover:border-[rgba(100, 148, 237, 0.6)] hover:bg-[rgba(100, 148, 237, 0.6)] hover:text-white focus:border-[rgba(100, 148, 237, 0.6)] focus:bg-[rgba(100, 148, 237, 0.6)] focus:text-white"
+	modalSelect: "p-[5px] rounded-[8px] cursor-pointer border border-solid border-black",
+	formBtn: "py-[5px] px-[10px] border border-solid border-[rgb(85,84,84)] rounded-[8px] hover:border-[rgba(100,148,237,0.6)] hover:bg-[rgba(100,148,237,0.6)] hover:text-white focus:border-[rgba(100,148,237,0.6)] focus:bg-[rgba(100,148,237,0.6)] focus:text-white"
 }
 
 const {
