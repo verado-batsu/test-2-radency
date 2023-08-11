@@ -14,6 +14,7 @@ import { changeSummary } from '../../redux/summary/summarySlice';
 import { ITodoItem } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { addTodo, editTodo } from '../../redux/todos/todosSlice';
+import { TableButtons } from '../TableButtons/TableButtons';
 
 const {
 	mainTable,
@@ -22,9 +23,6 @@ const {
 	tableRow,
 	tableRowItem,
 	tableIcon,
-	btnWrapper,
-	createNoteBtn,
-	toggleArchiveBtn,
 	statisticTable
 } = styles;
 
@@ -33,10 +31,10 @@ const TodoTitleArr: Readonly<string[]> = ['Name', 'Created', 'Category', 'Conten
 const SummaryTitleArr: Readonly<string[]> = ['Note Category', 'Active', 'Archived']
 
 interface IProps {
-	typeOfTable: 'todos' | 'summary' | 'archiveTodos'
+	typeOfTable?: 'todos' | 'summary' | 'archiveTodos'
 }
 
-export const Table: React.FC<IProps> = ({ typeOfTable }) => {
+export const Table: React.FC<IProps> = ({ typeOfTable = 'todos'  }) => {
 	const dispatch = useAppDispatch();
 
 	const [typeOfRender, setTypeOfRender] = useState<'todos' | 'summary' | 'archiveTodos'>(typeOfTable)
@@ -208,10 +206,7 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 					</ul>
 				</ul>
 				{typeOfRender !== "summary" &&
-					<div className={btnWrapper}>
-						<button onClick={() => openModal()} className={createNoteBtn} type="button" >Create Note</button>
-						<button onClick={() => openArchive()} className={toggleArchiveBtn} type="button">{typeOfRender === "todos" ? "Show Archive" : "Hide Archive"}</button>
-					</div>
+					<TableButtons typeOfRender={typeOfRender} openModal={openModal} openArchive={openArchive} />
 				}
 			</div>
 		</>
