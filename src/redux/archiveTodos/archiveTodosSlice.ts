@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-// import { RootState } from './../store';
-
 import { archiveTodoData } from '../../data';
 import { ITodoItem } from '../../types';
 
@@ -30,7 +28,5 @@ export const archiveTodosSlice = createSlice({
 })
 
 export const { addArchiveTodo, deleteArchiveTodo,  unarchiveTodo } = archiveTodosSlice.actions;
-
-// export const selectCount = (state: RootState) => state.counter.value;
 
 export const archiveTodosReducer = archiveTodosSlice.reducer;

@@ -2,15 +2,13 @@ import React from 'react';
 import { chooseIcon } from '../../../helpers';
 
 import { ISummaryItem } from '../../../types';
-
-import styles from '../Item.module.scss';
+import { styles } from '../itemStyles';
 
 const {
 	tableItem,
 	tableRow,
 	statisticRowItem,
 	iconWrapper,
-	tableIcon,
 } = styles;
 
 interface IProps {
@@ -26,7 +24,7 @@ export const SummaryItem: React.FC<IProps> = ({ summary }) => {
 			<ul className={tableRow}>
 				<li className={statisticRowItem}>
 					<div className={iconWrapper}>
-						<svg className={tableIcon} width="24" height="24">
+						<svg className={"fill-white"} width="24" height="24">
 							<use href={icon}></use>
 						</svg>
 					</div>
