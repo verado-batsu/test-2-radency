@@ -1,12 +1,10 @@
 import React from 'react';
 
-import './App.css';
-
 import { TablePage } from './pages/TablePage';
 
  const App: React.FC = () => {
   return (
-    <main className='container'>
+    <main className='container mx-auto px-[16px]'>
 		<TablePage />
     </main>
   );

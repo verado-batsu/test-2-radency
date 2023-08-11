@@ -8,25 +8,13 @@ import { icons } from '../../assets/images/tablePage';
 import { TodoItem } from '../TableItem/TodoItem/TodoItem';
 import { SummaryItem } from '../TableItem/SummaryItem/SummaryItem';
 
-import styles from './Table.module.scss';
 import { calculateStatistic, findDateInText } from '../../helpers';
 import { changeSummary } from '../../redux/summary/summarySlice';
 import { ITodoItem } from '../../types';
 import { Modal } from '../Modal/Modal';
 import { addTodo, editTodo } from '../../redux/todos/todosSlice';
 
-const {
-	mainTable,
-	table,
-	tableItemHead,
-	tableRow,
-	tableRowItem,
-	tableIcon,
-	btnWrapper,
-	createNoteBtn,
-	toggleArchiveBtn,
-	statisticTable
-} = styles;
+
 
 const TodoTitleArr: Readonly<string[]> = ['Name', 'Created', 'Category', 'Content', 'Dates']
 
@@ -142,27 +130,27 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 				closeModal={closeModal}
 				handleSubmit={handleSubmit}
 			/>}
-			<div className={typeOfRender === "todos" || typeOfRender === "archiveTodos" ? mainTable : statisticTable}>
-				<ul className={table}>
-					<li className={tableItemHead}>
-						<ul className={tableRow}>
+			<div className={typeOfRender === "todos" || typeOfRender === "archiveTodos" ? "mb-[30px]" : ""}>
+				<ul className={"mb-[10px]"}>
+					<li className={"mb-[10px] bg-[rgb(85,84,84)] text-white"}>
+						<ul className={"flex gap-[10px] py-[5px] px-[20px] max-h-[40px]"}>
 							{ typeOfRender === "todos" || typeOfRender === "archiveTodos" ?
 							<>
 								{TodoTitleArr.map(title => {
-									return <li key={title} className={tableRowItem}>{title}</li>
+									return <li key={title} className={"basis-[calc((100%-10px*5)/6)] flex items-center gap-[5px]"}>{title}</li>
 								})}
-								<li className={tableRowItem}>
-									<svg className={tableIcon} width="24" height="24">
+								<li className={"basis-[calc((100%-10px*5)/6)] flex items-center gap-[5px] justify-end"}>
+									<svg className={"fill-white"} width="24" height="24">
 										<use href={`${icons}#icon-archive`}></use>
 									</svg>
-									<svg className={tableIcon} width="24" height="24">
+									<svg className={"fill-white"} width="24" height="24">
 										<use href={`${icons}#icon-delete`}></use>
 									</svg>
 								</li>
 							</>
 							: <>
 							 	{SummaryTitleArr.map(title => {
-									return <li key={title} className={tableRowItem}>{title}</li>
+									return <li key={title} className={"basis-[calc((100%-10px*2)/3)] flex items-center gap-[5px]"}>{title}</li>
 								})}
 							 </>
 						}
@@ -208,9 +196,9 @@ export const Table: React.FC<IProps> = ({ typeOfTable }) => {
 					</ul>
 				</ul>
 				{typeOfRender !== "summary" &&
-					<div className={btnWrapper}>
-						<button onClick={() => openModal()} className={createNoteBtn} type="button" >Create Note</button>
-						<button onClick={() => openArchive()} className={toggleArchiveBtn} type="button">{typeOfRender === "todos" ? "Show Archive" : "Hide Archive"}</button>
+					<div className={"flex gap-[10px]"}>
+						<button onClick={() => openModal()} className={"py-[5px] px-[10px] border border-solid border-[rgb(85,84,84)] rounded-[8px] hover:border-[rgba(100,148,237,0.6)] hover:bg-[rgba(100,148,237,0.6)] hover:text-white focus:border-[rgba(100,148,237,0.6)] focus:bg-[rgba(100,148,237,0.6)] focus:text-white"} type="button" >Create Note</button>
+						<button onClick={() => openArchive()} className={"py-[5px] px-[10px] border border-solid border-[rgb(85,84,84)] rounded-[8px] hover:border-[rgba(100,148,237,0.6)] hover:bg-[rgba(100,148,237,0.6)] hover:text-white focus:border-[rgba(100,148,237,0.6)] focus:bg-[rgba(100,148,237,0.6)] focus:text-white"} type="button">{typeOfRender === "todos" ? "Show Archive" : "Hide Archive"}</button>
 					</div>
 				}
 			</div>
