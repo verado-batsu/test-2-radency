@@ -4,23 +4,23 @@ import { chooseIcon, limit } from '../../../helpers';
 import { ITodoItem } from '../../../types';
 import { icons } from '../../../assets/images/tablePage';
 
-import styles from '../Item.module.scss';
 import { useAppDispatch } from '../../../hooks';
 import { addTodo, deleteTodo } from '../../../redux/todos/todosSlice'
 import { addArchiveTodo, deleteArchiveTodo } from '../../../redux/archiveTodos/archiveTodosSlice';
+import { styles } from '../itemStyles';
 
 const {
 	tableItem,
 	tableRow,
 	tableRowItem,
 	iconWrapper,
-	tableIcon,
 	btnEdit,
 	btnArchive,
 	btnDelete,
 	btnUnarchive,
 	btnIcon
 } = styles;
+
 
 interface IProps {
 	key: string,
@@ -58,7 +58,7 @@ export const TodoItem: React.FC<IProps> = ({ todo, type, openModal, setEditId })
 			<ul className={tableRow}>
 				<li className={tableRowItem}>
 				<div className={iconWrapper}>
-					<svg className={tableIcon} width="24" height="24">
+					<svg className={"fill-white"} width="24" height="24">
 						<use href={icon}></use>
 					</svg>
 				</div>
